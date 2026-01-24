@@ -22,16 +22,20 @@ class GameSprite(sprite.Sprite):
 class Player(GameSprite):
     def update_l(self):
         keys_pressed = key.get_pressed()
-        if keys_pressed[K_w] and self.rect.y >= 0:
+        if keys_pressed[K_w] and self.rect.y >= 50:
             self.rect.y -= self.speed
-        if keys_pressef[K_s] and self.rect.y <= 440:
+        if keys_pressed[K_s] and self.rect.y <= 360:
             self.rect.y += self.speed
     
     def update_r(self):
-        if keys_pressed[K_UP] and self.rect.y >= 0:
+        keys_pressed = key.get_pressed()
+        if keys_pressed[K_UP] and self.rect.y >= 50:
             self.rect.y -= self.speed
-        if keys_pressed[K_DOWN] and self.rect.y <= 440:
+        if keys_pressed[K_DOWN] and self.rect.y <= 360:
             self.rect.y += self.speed
+
+rocket_l = Player("baseball-bat_pic.png", 30, 130, 10, 40, 20)
+rocket_r = Player("baseball-bat_pic.png", 30, 130, 660, 40, 20)
 
 clock = time.Clock()
 FPS = 60
@@ -45,7 +49,12 @@ while game:
     if not finish:
         window.blit(background, (0,0))
 
+
+        rocket_l.update_l()
+        rocket_r.update_r()
+        rocket_l.reset()
+        rocket_r.reset()
+
         
     display.update()
     clock.tick(FPS)
-
