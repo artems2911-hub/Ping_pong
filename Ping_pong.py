@@ -12,6 +12,8 @@ class GameSprite(sprite.Sprite):
         super().__init__()
         self.image = transform.scale(image.load(player_image), (image_x, image_y))
         self.speed = player_speed
+        self.speed_y = self.speed
+        self.speed_x = self.speed
         self.rect = self.image.get_rect()
         self.rect.x = player_x
         self.rect.y = player_y
@@ -34,8 +36,23 @@ class Player(GameSprite):
         if keys_pressed[K_DOWN] and self.rect.y <= 360:
             self.rect.y += self.speed
 
+class Ball(GameSprite):
+    def update(self):
+        if sprite.collide_rect(ball, rocket_l):
+            self.speed_x *= -1
+        if sprite.collide_rect(ball, rocket_r):
+            self.speed_x *= -1
+        if ball.rect.y > 450 or ball.rect.y < 0:
+            self.speed_y *= -1
+        self.rect.x += self.speed_x
+        self.rect.y += self.speed_y
+        
+        
+            
+
 rocket_l = Player("baseball-bat_pic.png", 30, 130, 10, 40, 20)
 rocket_r = Player("baseball-bat_pic.png", 30, 130, 660, 40, 20)
+ball = Ball("Dog-ball.png", 50, 50, 400, 200, 5)
 
 clock = time.Clock()
 FPS = 60
@@ -52,8 +69,10 @@ while game:
 
         rocket_l.update_l()
         rocket_r.update_r()
+        ball.update()
         rocket_l.reset()
         rocket_r.reset()
+        ball.reset()
 
         
     display.update()
