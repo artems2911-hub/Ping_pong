@@ -38,10 +38,9 @@ class Player(GameSprite):
 
 class Ball(GameSprite):
     def update(self):
-        if sprite.collide_rect(ball, rocket_l):
+        if sprite.collide_rect(ball, rocket_l) or sprite.collide_rect(ball, rocket_r):
             self.speed_x *= -1
-        if sprite.collide_rect(ball, rocket_r):
-            self.speed_x *= -1
+            bat_sound.play()
         if ball.rect.y > 450 or ball.rect.y < 0:
             self.speed_y *= -1
         self.rect.x += self.speed_x
@@ -50,12 +49,20 @@ class Ball(GameSprite):
 font.init()
 
 font1 = font.SysFont('Arial', 70)            
-lose_txt1 = font1.render("LEFT, YOU LOSE", 1, (220, 100, 100))
-lose_txt2 = font1.render("RIGHT, YOU LOSE", 1, (220, 100, 100))
+lose_txt1 = font1.render("LEFT, YOU LOSE", 1, (240, 100, 100))
+lose_txt2 = font1.render("RIGHT, YOU LOSE", 1, (240, 100, 100))
 
-rocket_l = Player("baseball-bat_pic.png", 30, 100, 10, 40, 20)
-rocket_r = Player("baseball-bat_pic.png", 30, 100, 660, 40, 20)
+rocket_l = Player("baseball-bat_pic.png", 30, 100, 10, 40, 15)
+rocket_r = Player("baseball-bat_pic.png", 30, 100, 660, 40, 15)
 ball = Ball("Dog-ball.png", 50, 50, 400, 200, 3)
+
+mixer.init()
+mixer.music.load("Song_theme.ogg")
+mixer.music.set_volume(0.05)
+mixer.music.play()
+
+bat_sound = mixer.Sound("Bat_sound.ogg")
+bat_sound.set_volume(0.5)
 
 clock = time.Clock()
 FPS = 60
@@ -69,8 +76,13 @@ while game:
     if not finish:
         window.blit(background, (0,0))
 
-        if ball.rect.x > 650 or ball.rect.x < 0:
-            window.blit(lose_txt, (250, 180))
+        if ball.rect.x > 650:
+            window.blit(lose_txt2, (150, 180))
+            finish = True
+        
+        
+        if ball.rect.x < 0:
+            window.blit(lose_txt1, (150, 180))
             finish = True
 
 
@@ -85,4 +97,3 @@ while game:
         
     display.update()
     clock.tick(FPS)
-
