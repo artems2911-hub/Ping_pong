@@ -51,7 +51,7 @@ font.init()
 
 font1 = font.SysFont('Arial', 70)            
 lose_txt1 = font1.render("LEFT, YOU LOSE", 1, (220, 100, 100))
-lose_txt3 = font1.render("RIGHT, YOU LOSE", 1, (220, 100, 100))
+lose_txt2 = font1.render("RIGHT, YOU LOSE", 1, (220, 100, 100))
 
 rocket_l = Player("baseball-bat_pic.png", 30, 100, 10, 40, 20)
 rocket_r = Player("baseball-bat_pic.png", 30, 100, 660, 40, 20)
@@ -85,3 +85,4 @@ while game:
         
     display.update()
     clock.tick(FPS)
+
