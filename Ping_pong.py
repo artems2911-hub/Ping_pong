@@ -26,14 +26,14 @@ class Player(GameSprite):
         keys_pressed = key.get_pressed()
         if keys_pressed[K_w] and self.rect.y >= 50:
             self.rect.y -= self.speed
-        if keys_pressed[K_s] and self.rect.y <= 360:
+        if keys_pressed[K_s] and self.rect.y <= 400:
             self.rect.y += self.speed
     
     def update_r(self):
         keys_pressed = key.get_pressed()
         if keys_pressed[K_UP] and self.rect.y >= 50:
             self.rect.y -= self.speed
-        if keys_pressed[K_DOWN] and self.rect.y <= 360:
+        if keys_pressed[K_DOWN] and self.rect.y <= 400:
             self.rect.y += self.speed
 
 class Ball(GameSprite):
@@ -47,12 +47,15 @@ class Ball(GameSprite):
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
         
-        
-            
+font.init()
 
-rocket_l = Player("baseball-bat_pic.png", 30, 130, 10, 40, 20)
-rocket_r = Player("baseball-bat_pic.png", 30, 130, 660, 40, 20)
-ball = Ball("Dog-ball.png", 50, 50, 400, 200, 5)
+font1 = font.SysFont('Arial', 70)            
+lose_txt1 = font1.render("LEFT, YOU LOSE", 1, (220, 100, 100))
+lose_txt3 = font1.render("RIGHT, YOU LOSE", 1, (220, 100, 100))
+
+rocket_l = Player("baseball-bat_pic.png", 30, 100, 10, 40, 20)
+rocket_r = Player("baseball-bat_pic.png", 30, 100, 660, 40, 20)
+ball = Ball("Dog-ball.png", 50, 50, 400, 200, 3)
 
 clock = time.Clock()
 FPS = 60
@@ -65,6 +68,11 @@ while game:
 
     if not finish:
         window.blit(background, (0,0))
+
+        if ball.rect.x > 650 or ball.rect.x < 0:
+            window.blit(lose_txt, (250, 180))
+            finish = True
+
 
 
         rocket_l.update_l()
